@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using CodeChallenge.DataAccess.Repositories;
+using CodeChallenge.Dto;
 using CodeChallenge.Dto.Request;
 using CodeChallenge.Dto.Response;
 using CodeChallenge.Entities;
 using CodeChallenge.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
 
 namespace CodeChallenge.Services.Implementations
 {
@@ -85,22 +87,20 @@ namespace CodeChallenge.Services.Implementations
             return response;
         }
 
-        public async Task<BaseResponse> DeleteAsync(int id)
+        //TODO: There is another way to have Fixed responses based on an interface, with custom codes instead of creating an object on each service response
+        public async Task<IGenericBaseResponse<bool>> DeleteAsync(int id)
         {
-            var response = new BaseResponse();
+            //var response = new BaseResponse();
 
             try
             {
-                await _repository.DeleteAsync(id);
-                response.Success = true;
+                var response = _repository.DeleteAsync(id);
+                return GenericBaseResponse<bool>.Ok(response.IsCompletedSuccessfully);
             }
             catch (Exception ex)
             {
-                response.Success = false;
-                response.ListErrors.Add(ex.Message);
+                return GenericBaseResponse<bool>.Error(StatusCodes.Status500InternalServerError, ex.Message);
             }
-
-            return response;
         }
 
         public async Task<BaseResponse> PatchAsync(int id)
@@ -119,6 +119,11 @@ namespace CodeChallenge.Services.Implementations
             }
 
             return response;
+        }
+
+        Task<BaseResponse> IProductService.DeleteAsync(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -25,6 +25,7 @@ namespace CodeChallenge.UnitTest
         [Fact]
         public void PaginationTest()
         {
+            //HACK: Testing Feature list
             //Arrange
             int total = 100;
             int rows = 10;
@@ -53,6 +54,9 @@ namespace CodeChallenge.UnitTest
         {
             //Arrange
             var mapper = new Mock<IMapper>();
+            //TODO: Try to mock the DBContext and use the service.
+            //Technically as it is right now its considered integration test.
+            //MOck<Context>.Seup(It.IsANy).REturns(new List<>() 
             var repository = new ProductRepository(Context, mapper.Object);
             var service = new ProductService(repository, mapper.Object);
             //Act

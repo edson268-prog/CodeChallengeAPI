@@ -17,10 +17,12 @@ namespace CodeChallenge.API.Controllers
     {
         //private readonly CodeChallengeDbContext _context;
 
+
         private readonly IMapper _mapper;
 
         private readonly IProductService _service;
 
+        //TODO: I believe automapper is not needed anymore here on the controllers right?
         public ProductsController(CodeChallengeDbContext context, IMapper mapper, IProductService service)
         {
             //_context = context;
@@ -53,9 +55,18 @@ namespace CodeChallenge.API.Controllers
             //return Ok(list);
 
             //CON INYECCION DE DEPENDENCIA
-            var response = await _service.FilterAsync(filter, page, rows);
 
-            return Ok(response);
+            //TODO: Use try catch and usage of different status code for Restful
+            try
+            {
+                var response = await _service.FilterAsync(filter, page, rows);
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpGet("{id:int}")]

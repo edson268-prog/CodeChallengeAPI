@@ -4,6 +4,7 @@ using CodeChallenge.Dto.Request;
 using CodeChallenge.Dto.Response;
 using CodeChallenge.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace CodeChallenge.DataAccess.Repositories
 {
@@ -18,6 +19,11 @@ namespace CodeChallenge.DataAccess.Repositories
             _mapper = mapper;
         }
 
+        //TODO: Im not a big fan of the Repo desing patter with EF Core,
+        //still the filter should be an Expression<T> not an string
+        //https://stackoverflow.com/questions/23778903/repository-method-accepting-predicate-and-orderby
+
+        //public async Task<ICollection<DtoResponseProductType>> FilterAsync(Expression<Func<ProductType, bool>> expression)
         public async Task<ICollection<DtoResponseProductType>> FilterAsync(string? filter)
         {
             var list = await _context.Set<ProductType>()

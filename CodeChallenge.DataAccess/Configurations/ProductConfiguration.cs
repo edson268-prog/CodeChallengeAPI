@@ -8,6 +8,13 @@ namespace CodeChallenge.DataAccess.Configurations
     {
         public void Configure(EntityTypeBuilder<Product> builder)
         {
+            // Conventions
+            // DataAnnotations
+            // FluentAPI
+
+            builder.HasKey(x => x.Id);
+
+
             builder.Property(p => p.Name)
                 .HasMaxLength(50)
                 .IsRequired();
@@ -27,6 +34,11 @@ namespace CodeChallenge.DataAccess.Configurations
                 .HasDefaultValue(true);
 
             builder.HasQueryFilter(p => p.Active);
+
+            //Manual configuration of FK
+            builder.HasOne(x => x.ProductType).WithMany(x => x.Products);          
+            
+            //builder.HasCheckConstraint("CK_RangeX", "")
 
             builder.HasData(Get());
         }

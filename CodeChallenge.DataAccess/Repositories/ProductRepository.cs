@@ -27,6 +27,7 @@ namespace CodeChallenge.DataAccess.Repositories
 
             try
             {
+                //TODO: Why the Skip -1 * Rows? 
                 var list = await _context.Set<Product>()
                     .Where(p => p.Name.Contains(filter ?? string.Empty))
                     .Skip((page - 1) * rows)

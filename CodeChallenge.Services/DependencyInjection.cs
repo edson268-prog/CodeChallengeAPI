@@ -12,10 +12,11 @@ namespace CodeChallenge.Services
     {
         public static IServiceCollection AddDependencies(this IServiceCollection services)
         {
-            services.AddTransient<IProductRepository, ProductRepository>()
+            //TODO: Why Transient.!! :( 
+            services.AddScoped<IProductRepository, ProductRepository>()
             .AddTransient<IProductService, ProductService>();
 
-            services.AddTransient<IProductTypeRepository, ProductTypeRepository>()
+            services.AddScoped<IProductTypeRepository, ProductTypeRepository>()
             .AddTransient<IProductTypeService, ProductTypeService>();
 
             return services;

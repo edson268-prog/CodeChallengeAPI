@@ -9,6 +9,8 @@ namespace CodeChallenge.Dto.Request
 {
     public class DtoProduct
     {
+        //TODO: Take a look at fluentValidations for NotNull and InclusiveBetween
+        //RuleFor(x => x.Height).Must((model, height) => height >= model.Min && height <= model.Max);
         [Required]
         public string Name { get; set; }
         public string? Description { get; set; }
