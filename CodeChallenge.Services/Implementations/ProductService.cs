@@ -26,7 +26,8 @@ namespace CodeChallenge.Services.Implementations
             var response = new BaseCollectionPageResponse<ICollection<DtoResponseProduct>>();
             try
             {
-                var tuple = await _repository.FilterAsync(filter, page, rows); //tuple para almacenar las dos variables de retorno
+                //var tuple = await _repository.FilterAsync(filter, page, rows); //tuple para almacenar las dos variables de retorno
+                var tuple = await _repository.FilterAsync(p => p.Name.Contains(filter ?? string.Empty), page, rows); //Predicate implemented
 
                 response.ResponseResult = tuple.collection;
                 response.TotalPages = Utils.GetTotalPages(tuple.total, rows);
@@ -52,20 +53,24 @@ namespace CodeChallenge.Services.Implementations
             return response;
         }
 
-        public async Task<BaseResponseGeneric<int>> CreateAsync(DtoProduct request)
+        public async Task<IGenericBaseResponse<int>> CreateAsync(DtoProduct request)
         {
-            var response = new BaseResponseGeneric<int>();
+            //var response = new BaseResponseGeneric<int>();
             try
             {
-                response.ResponseResult = await _repository.CreateAsync(request);
-                response.Success = true;
+                //response.ResponseResult = await _repository.CreateAsync(request);
+                //response.Success = true;
+
+                var response = await _repository.CreateAsync(request);
+                return GenericBaseResponse<int>.Ok(response);
             }
             catch (Exception ex)
             {
-                response.Success = false;
-                response.ListErrors.Add(ex.Message);
+                //response.Success = false;
+                //response.ListErrors.Add(ex.Message);
+                return GenericBaseResponse<int>.Error(500, ex.Message);
             }
-            return response;
+            //return response;
         }
 
         public async Task<BaseResponse> UpdateAsync(int id, DtoProduct request)
@@ -88,14 +93,29 @@ namespace CodeChallenge.Services.Implementations
         }
 
         //TODO: There is another way to have Fixed responses based on an interface, with custom codes instead of creating an object on each service response
+        //ANSWER: The other way was implemented in the "Create" and "Delete" methods, for the delete method the boolean requested in the 
+        //output method was added as a response.
         public async Task<IGenericBaseResponse<bool>> DeleteAsync(int id)
         {
             //var response = new BaseResponse();
 
+            //try
+            //{
+            //    await _repository.DeleteAsync(id);
+            //    response.Success = true;
+            //}
+            //catch (Exception ex)
+            //{
+            //    response.Success = false;
+            //    response.ListErrors.Add(ex.Message);
+            //}
+
+            //return response;
+
             try
             {
-                var response = _repository.DeleteAsync(id);
-                return GenericBaseResponse<bool>.Ok(response.IsCompletedSuccessfully);
+                var response = await _repository.DeleteAsync(id);
+                return GenericBaseResponse<bool>.Ok(response);
             }
             catch (Exception ex)
             {
@@ -121,9 +141,9 @@ namespace CodeChallenge.Services.Implementations
             return response;
         }
 
-        Task<BaseResponse> IProductService.DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
+        //Task<BaseResponse> IProductService.DeleteAsync(int id)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

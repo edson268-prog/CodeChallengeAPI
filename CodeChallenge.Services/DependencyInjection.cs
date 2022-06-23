@@ -13,6 +13,7 @@ namespace CodeChallenge.Services
         public static IServiceCollection AddDependencies(this IServiceCollection services)
         {
             //TODO: Why Transient.!! :( 
+            //ANSWER: Changed to Scoped to a best performance
             services.AddScoped<IProductRepository, ProductRepository>()
             .AddTransient<IProductService, ProductService>();
 

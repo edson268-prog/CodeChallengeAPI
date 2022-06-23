@@ -25,7 +25,9 @@ namespace CodeChallenge.API.Controllers
         [ProducesResponseType(typeof(ICollection<ProductType>), 200)]
         public async Task<IActionResult> Get(string? filter)
         {
-            //return Ok(await _context.Set<ProductType>()
+            try
+            {
+//return Ok(await _context.Set<ProductType>()
             //    .Where( p => p.Description.StartsWith(filter ?? string.Empty))
             //    .IgnoreQueryFilters()
             //    .Select(p => new
@@ -38,6 +40,12 @@ namespace CodeChallenge.API.Controllers
 
             var response = await _service.FilterAsync(filter);
             return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+            
         }
 
         [HttpGet("{id:int}")]
@@ -45,7 +53,9 @@ namespace CodeChallenge.API.Controllers
         [ProducesResponseType(typeof(BaseResponseGeneric<ProductType>), 404)]
         public async Task<IActionResult> Get(int id)
         {
-            //var response = new BaseResponseGeneric<ProductType>();
+            try
+            {
+//var response = new BaseResponseGeneric<ProductType>();
 
             //var productType = await _context.Set<ProductType>()
             //    .FirstOrDefaultAsync(p => p.Id == id);
@@ -63,6 +73,12 @@ namespace CodeChallenge.API.Controllers
                 return NotFound(response);
 
             return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+            
         }
 
         [HttpPost]
@@ -70,6 +86,8 @@ namespace CodeChallenge.API.Controllers
         [ProducesResponseType(typeof(BaseResponseGeneric<ProductType>), 400)]
         public async Task<IActionResult> Post(DtoProductType request)
         {
+            try
+            {
             //var response = new BaseResponseGeneric<int>();
 
             //try
@@ -96,6 +114,12 @@ namespace CodeChallenge.API.Controllers
 
             var response = await _service.CreateAsync(request);
             return Created($"{response.ResponseResult}", response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
         }
 
         [HttpPut("{id:int}")]
@@ -103,7 +127,9 @@ namespace CodeChallenge.API.Controllers
         [ProducesResponseType(typeof(BaseResponse), 400)]
         public async Task<IActionResult> Put(int id, DtoProductType request)
         {
-            //var response = new BaseResponse();
+            try
+            {
+//var response = new BaseResponse();
             //try
             //{
             //    var entity = await _context.Set<ProductType>()
@@ -128,6 +154,12 @@ namespace CodeChallenge.API.Controllers
 
             var response = await _service.UpdateAsync(id, request);
             return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+            
         }
 
         [HttpDelete("{id:int}")]

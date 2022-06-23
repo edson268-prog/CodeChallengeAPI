@@ -22,8 +22,8 @@ namespace CodeChallenge.Services.Implementations
             var response = new BaseResponseGeneric<ICollection<DtoResponseProductType>>();
             try
             {
-                //var collection = await _repository.FilterAsync(x=> x.Name.Contains(x));
-                var collection = await _repository.FilterAsync(filter);
+                //var collection = await _repository.FilterAsync(filter);
+                var collection = await _repository.FilterAsync(x => x.Name.Contains(filter)); //Predicate implemented
 
                 response.ResponseResult = collection;
                 response.Success = true;

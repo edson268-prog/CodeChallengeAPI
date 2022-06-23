@@ -21,13 +21,19 @@ namespace CodeChallenge.DataAccess.Repositories
 
         //TODO: Im not a big fan of the Repo desing patter with EF Core,
         //still the filter should be an Expression<T> not an string
+        //ASNWER: Predicate expression was implemented on Product and ProductType Repositories
         //https://stackoverflow.com/questions/23778903/repository-method-accepting-predicate-and-orderby
 
-        //public async Task<ICollection<DtoResponseProductType>> FilterAsync(Expression<Func<ProductType, bool>> expression)
-        public async Task<ICollection<DtoResponseProductType>> FilterAsync(string? filter)
+        //public async Task<ICollection<DtoResponseProductType>> FilterAsync(string? filter)
+        public async Task<ICollection<DtoResponseProductType>> FilterAsync(Expression<Func<ProductType, bool>> expression)
         {
+            //var list = await _context.Set<ProductType>()
+            //    .Where(p => p.Name.Contains(filter ?? string.Empty))
+            //    .ProjectTo<DtoResponseProductType>(_mapper.ConfigurationProvider)
+            //    .ToListAsync();
+
             var list = await _context.Set<ProductType>()
-                .Where(p => p.Name.Contains(filter ?? string.Empty))
+                .Where(expression)
                 .ProjectTo<DtoResponseProductType>(_mapper.ConfigurationProvider)
                 .ToListAsync();
 
