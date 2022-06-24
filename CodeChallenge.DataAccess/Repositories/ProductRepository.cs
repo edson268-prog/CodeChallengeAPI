@@ -56,9 +56,12 @@ namespace CodeChallenge.DataAccess.Repositories
 
         }
 
+        //Fixed observations db set and set and included table join Product and ProductType
         public async Task<Product?> GetByIdAsync(int id)
         {
-            var product = await _context.Set<Product>()
+            //var product = await _context.Set<Product>()
+            var product = await _context.Product // Using DbSet beacuse i already know what class i'm working with
+                .Include(p => p.ProductType) // Include "ProductType" Table to join
                 .FirstOrDefaultAsync(p => p.Id == id);
 
             return product;

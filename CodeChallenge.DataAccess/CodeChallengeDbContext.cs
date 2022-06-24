@@ -37,7 +37,7 @@ namespace CodeChallenge.DataAccess
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
-        //public DbSet<Product> Products { get; set; }
-        //public DbSet<ProductType> ProductTypes { get; set; }
+        public virtual DbSet<Product> Product { get; set; }
+        //public DbSet<ProductType> ProductType { get; set; }
     }
 }
