@@ -19,6 +19,7 @@ namespace CodeChallenge.API.Profiles
                 .ForMember(dto => dto.Company, ent => ent.MapFrom(x => x.Company))
                 .ForMember(dto => dto.Price, ent => ent.MapFrom(x => x.Price))
                 .ForMember(dto => dto.SoldOut, ent => ent.MapFrom(x => x.SoldOut))
+                .ForMember(dto => dto.ProductTypeId, ent => ent.MapFrom(x => x.ProductType.Id))
                 .ForMember(dto => dto.ProductTypeDesc, ent => ent.MapFrom(x => x.ProductType.Description))
                 .ForMember(dto => dto.ProductTypeName, ent => ent.MapFrom(x => x.ProductType.Name));
 

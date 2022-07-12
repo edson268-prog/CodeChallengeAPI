@@ -31,6 +31,7 @@ namespace CodeChallenge.Services.Implementations
 
                 response.ResponseResult = tuple.collection;
                 response.TotalPages = Utils.GetTotalPages(tuple.total, rows);
+                response.TotalRecords = tuple.total;
                 response.Success = true;
             }
             catch (Exception ex)

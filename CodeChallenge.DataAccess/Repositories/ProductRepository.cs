@@ -35,7 +35,8 @@ namespace CodeChallenge.DataAccess.Repositories
                 var list = await _context.Set<Product>()
                     //.Where(p => p.Name.Contains(filter ?? string.Empty))
                     .Where(expression)
-                    .Skip((page - 1) * rows)
+                    //.Skip((page - 1) * rows)
+                    .Skip((page) * rows) //Adapted to angular paginator use
                     .Take(rows)
                     .OrderByDescending(p => p.Name)
                     //.ProjectTo<DtoResponseProduct>(_mapper.ConfigurationProvider)

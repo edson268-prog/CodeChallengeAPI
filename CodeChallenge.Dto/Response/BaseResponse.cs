@@ -18,5 +18,6 @@
     public class BaseCollectionPageResponse<TClass> : BaseResponseGeneric<TClass>
     {
         public int TotalPages { get; set; }
+        public int TotalRecords { get; set; }
     }
 }

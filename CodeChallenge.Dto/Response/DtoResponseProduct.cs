@@ -10,6 +10,7 @@
         public decimal Price { get; set; }
         public string ProductTypeDesc { get; set; }
         public string ProductTypeName { get; set; }
+        public string ProductTypeId { get; set; }
         public bool SoldOut { get; set; }
     }
 }
